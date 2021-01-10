@@ -1,11 +1,11 @@
 import csv,sys,os
-project_dir = './'
+project_dir = './mainsite/'
 sys.path.append(project_dir)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mblog.settings'
 import django
 django.setup()
 from mainsite.models import heightdata
-data = csv.reader(open("./data.csv",encoding="utf-8"),delimiter=",",)
+data = csv.reader(open("./mainsite/data.csv",encoding="utf-8"),delimiter=",",)
 for row in data:
     if row[0] !='year':
         unit = heightdata()
