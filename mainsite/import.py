@@ -1,5 +1,5 @@
 import csv,sys,os
-project_dir = './app/mainsite/'
+project_dir = './mainsite/'
 sys.path.append(project_dir)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mblog.settings'
 import django
