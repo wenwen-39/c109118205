@@ -40,6 +40,8 @@ def showpost(request, slug):
 		return render(request, "post.html", locals())
 	except:
 		return redirect("/")
+def height(request,):
+        return render(request, "height.html", locals())
 
 def lotto(request):
     lucky = random.randint(1, 42)
