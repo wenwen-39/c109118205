@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block title %}
+我的統計圖表
+{% endblock %}
+{% block titlemessage %}
+<h1>我的統計圖表</h1>
+{% endblock %}
+{% block content %}
+
+
+
+<center>
+    <p>
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                單一分店
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                {% for branch in branches %}
+                <a class="dropdown-item" href="/mychart/{{branch.id}}/">{{branch.title}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <a href="/mychart/" class="btn btn-secondary" role="button" aria-pressed="true">ALL</a>
+        <button type="button" class="btn btn-secondary" onclick="toggleChart();">Bar / HorizontalBar</button>
+    </div>
+    </p>
+
+    <br>
+    月份:
+    <button>
+        <a href="/chartbydate/2020/10/">10</a>
+    </button>
+    <button>
+        <a href="/chartbydate/2020/11/">11</a>
+    </button>
+    <button>
+        <a href="/chartbydate/2020/12/">12</a>
+    </button>
+    年份:
+    <button>
+        <a href="/chartbydate/2020/0/">2020</a>
+    </button>
+    </br>
+
+    <table width=800>
+        <tr>
+            <td>
+                <canvas id="myChart" width="800" height="400"></canvas>
+            </td>
+        </tr>
+    </table>
+
+</center>
+
+<script>
+
+    var chartType = 'bar';
+    var myChart;
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var data = {
+        labels: [
+            {% for item in data %}
+    '{{ item.branch }}-{{ item.income_year }}-{{ item.income_month }}',
+        {% endfor %}
+                ],
+
+
+    datasets: [{
+        label: '各分類營收情形',
+        data: [
+            {% for item in data %}
+                    '{{ item.income }}',
+    {% endfor %}
+    ],
+
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgb(72, 209, 204, 0.2)',
+            'rgb(0, 191, 255, 0.2)',
+            'rgb(65, 105, 225, 0.2)',
+            'rgb(106, 90, 205, 0.2)',
+            'rgb(199, 21, 133, 0.2)',
+            'rgb(255, 192, 203, 0.2)'
+        ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgb(72, 209, 204, 1)',
+                'rgb(0, 191, 255, 1)',
+                'rgb(65, 105, 225 ,1)',
+                'rgb(106, 90, 205, 1)',
+                'rgb(199, 21, 133, 1)',
+                'rgb(255, 192, 203, 1)'
+
+            ],
+                borderWidth: 1
+            }]
+        };
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+    };
+
+    init();
+    function init() {
+        myChart = new Chart(ctx, {
+            type: chartType,
+            data: data,
+            options: options
+        });
+    }
+    function toggleChart() {
+        myChart.destroy();
+        this.chartType = (this.chartType == 'horizontalBar') ? 'bar' : 'horizontalBar';
+        init();
+    }
+</script>
+{% endblock %}
