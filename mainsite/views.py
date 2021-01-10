@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from mainsite.models import Post, AccessInfo, Branch, StoreIncome
+from mainsite.models import Post, AccessInfo, Branch, StoreIncome, heightdata
 import random
 from datetime import datetime
 
@@ -11,7 +11,6 @@ def homepage(request):
     posts = Post.objects.all()
     now = datetime.now()
     return render(request, "index.html", locals())
-
 def mychart(request,bid=0):
     now = datetime.now()
     branches = Branch.objects.all()
@@ -32,7 +31,6 @@ def chart(request,year=0,month=0):
         if month>0:
             data = data.filter(income_month=month)
     return render(request, "mychart.html", locals())
-
 def showpost(request, slug):
 	now = datetime.now()
 	try:
@@ -40,9 +38,8 @@ def showpost(request, slug):
 		return render(request, "post.html", locals())
 	except:
 		return redirect("/")
-def height(request,):
+def height(request):
         return render(request, "height.html", locals())
-
 def lotto(request):
     lucky = random.randint(1, 42)
     lottos = list()
@@ -50,4 +47,7 @@ def lotto(request):
         lottos.append(random.randint(1, 42))
     
     return render(request, "lotto.html", locals())
-    
+def myheight(request,years): 
+    data = heightdata.objects.filter(year=years)   
+    return render(request, "height.html", locals())
+

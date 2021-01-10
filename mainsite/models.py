@@ -30,7 +30,14 @@ class Branch(models.Model):
    
     def __str__(self):
         return self.title
-
+class heightdata(models.Model):
+    year = models.CharField(max_length=200)
+    old = models.CharField(max_length=200)   
+    total = models.CharField(max_length=200)
+    boy = models.CharField(max_length=200)
+    girl = models.CharField(max_length=200)
+    def __str__(self):
+        return self.year
 class StoreIncome(models.Model):
     income_year = models.CharField(max_length=4)
     income_month = models.CharField(max_length=2)

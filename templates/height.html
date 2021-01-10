@@ -3,9 +3,113 @@
 我的統計圖表
 {% endblock %}
 {% block titlemessage %}
-<h1>我的身高平均分析</h1>
+<h1>我的統計圖表</h1>
 {% endblock %}
 {% block content %}
 
 
+
+<center>
+
+
+    <div class="btn-group">
+        <a href="/height/96/" class="btn btn-primary">96</a>
+        <a href="/height/97/" class="btn btn-primary">97</a>
+        <a href="/height/98/" class="btn btn-primary">98</a>
+        <a href="/height/99/" class="btn btn-primary">99</a>
+        <a href="/height/100/" class="btn btn-primary">100</a>
+        <a href="/height/101/" class="btn btn-primary">101</a>
+        <a href="/height/102/" class="btn btn-primary">102</a>
+        <a href="/height/103/" class="btn btn-primary">103</a>
+        <a href="/height/104/" class="btn btn-primary">104</a>
+        <a href="/height/105/" class="btn btn-primary">105</a>
+        <a href="/height/106/" class="btn btn-primary">106</a>
+        <a href="/height/107/" class="btn btn-primary">107</a>
+    </div>
+    <table width=800>
+        <tr>
+            <td>
+                <canvas id="myChart" width="800" height="400"></canvas>
+            </td>
+        </tr>
+    </table>
+
+</center>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+
+<script>
+var old = [
+    {%for i in data%}
+    '{{i.old}}',
+    {%endfor%}
+];
+var girl = [
+    {%for i in data%}
+    '{{i.girl}}',
+    {%endfor%}
+];
+var boy = [
+{%for i in data%}
+    '{{i.boy}}',
+    {%endfor%}
+];
+var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: 
+            old,
+            datasets: [{
+                label: '女生',
+                data: girl,
+                // 線條顏色
+                borderColor: "rgba(68,190,190,1)",
+                // 填充顏色
+                fill: true,
+                // 線條下方的填充顏色
+                backgroundColor: "rgba(68,190,190,.3)"
+            },
+            {
+                label: "男生",
+                data: boy,
+                borderColor: "rgba(250,150,30,1)",
+                // 取消填充後，只有圖例中會顯示相應背景色
+                backgroundColor: "rgba(250,150,30,.3)",
+                // 取消填充
+                fill: false
+            }]
+        },
+        options: {
+            // 圖表標題
+            title: {
+                display: true,
+                text: "身高平均分析"
+            },
+            // 圖例設置
+            legend: {
+                labels: {
+                    padding: 30,
+                    // 使用圓形樣式
+                    usePointStyle: true
+                },
+                // 顯示位置
+                position: 'bottom'
+            },
+            // tooltip提示樣式
+            tooltips: {
+                enabled: true,
+                // 同時顯示x軸上的數據
+                // 這裡鼠標移到對應點上會同時顯示english和math的成績
+                mode: 'index',
+                // 通過回調修改tooltips的標題
+                callbacks: {
+                    title: function (item) {
+                        return  item[0].xLabel + "歲"
+                    }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
